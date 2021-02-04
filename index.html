@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <style>
+        #mapid {
+            margin: auto;
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+    <title>OUR TRIPS</title>
+</head>
+
+<body>
+    <div class="divtitle">
+        OUR TRIPS
+    </div>
+
+    <div class="container">
+        <div id="first">
+            <p id="p1">Visitate:</p>
+            <p id="p2">Non visitate:</p>
+            <a
+                href="https://docs.google.com/spreadsheets/d/1pZi0x7-0rpuzAAKw1bEjhXcr9uJc5VlD0Nf_OgO_8x8/edit?usp=sharing">
+                Qui trovi il file con tutti i dati</a>
+        </div>
+        <div id="second">
+            <div id="mapid"></div>
+        </div>
+    </div>
+
+    <div id="clear">
+        © Khelm. All rights reserved.
+    </div>
+
+
+</body>
+
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<script>
+    var mymap = L.map('mapid').setView([41, 12], 5);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoibmljb2MyOCIsImEiOiJja2tvNW84OWgyaWZvMnBxdDZ6dDV5N3lmIn0.MTzmgjq5n7QAhkUBSujqWQ'
+    }).addTo(mymap);
+
+    var greenIcon = L.icon({
+        iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+        shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+
+        iconSize: [38, 95], // size of the icon
+        shadowSize: [50, 64], // size of the shadow
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+
+
+    var redIcon = L.icon({
+        iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
+        shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+
+        iconSize: [38, 95], // size of the icon
+        shadowSize: [50, 64], // size of the shadow
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    fetch("https://sheet.best/api/sheets/cad8372a-db30-4879-a75b-467460038ffc")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            visit = 0;
+            nonvisit = 0;
+            data.forEach(element => {
+                if (element.Visitata == "si") {
+                    visit++;
+                    L.marker([element.Latitudine, element.Longitudine], { icon: greenIcon }).addTo(mymap).bindPopup(element.Quando);;
+                }
+
+                else {
+                    nonvisit++;
+                    L.marker([element.Latitudine, element.Longitudine], { icon: redIcon }).addTo(mymap).bindPopup(element.Quando);;
+                }
+
+            });
+            document.getElementById("p1").innerHTML = "Visitate: " + visit;
+            document.getElementById("p2").innerHTML = "Non visitate: " + nonvisit;
+            console.log(visit);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+
+
+</script>
+
+
+
+
+
+
+</html>

@@ -1,0 +1,54 @@
+p{
+    margin-top: 30%;
+    color: #75cff0;
+}
+a{
+    margin-top: 30%;
+    color: #75cff0;
+    display: inline-block;
+}
+
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #eaead3;
+    font-weight: 900;
+}
+
+.divtitle{
+    padding-top: 2%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 400%;
+    color: #75cff0;
+    font-weight: 900;
+    margin-bottom: 4%;
+}
+
+
+
+.container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#first {
+    width: 30%;
+    float: left;
+    height: 600px;
+}
+#second {
+    width: 70%;
+    float: left;
+    height: 600px;
+}
+#clear {
+    clear: both;
+    padding-top: 2%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 13px;
+    color: #75cff0;
+}
